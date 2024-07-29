@@ -37,7 +37,7 @@ const LoginPage: React.FC = () => {
               placeholder='Your email'
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-600"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-gray-100"
             />
           </div>
           <div className="mb-6">
@@ -48,12 +48,12 @@ const LoginPage: React.FC = () => {
               placeholder='Password'
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-600"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-gray-100"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition duration-200"
+            className="w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:border-gray-400 transition duration-200"
           >
             Login
           </button>
