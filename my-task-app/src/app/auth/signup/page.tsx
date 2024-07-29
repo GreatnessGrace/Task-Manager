@@ -2,16 +2,17 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; 
 
 const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Replace this with your signup logic
     console.log({ name, email, password });
     router.push('/auth/login');
   };
@@ -43,16 +44,23 @@ const SignupPage: React.FC = () => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-600"
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-6 relative"> 
             {/* <label className="block text-left mb-2 text-sm font-medium text-gray-600">Password:</label> */}
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'} 
               placeholder='Password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-600"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)} 
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400"
+            >
+              {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+            </button>
           </div>
           <button
             type="submit"
