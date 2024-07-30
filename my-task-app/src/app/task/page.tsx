@@ -9,7 +9,7 @@ const TaskPage: React.FC = () => {
       <div className="flex-1 p-6 bg-gray-100">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-semibold">Good morning, Joe!</h1>
-          <button className="text-gray-500">Help & feedback</button>
+          <button className="text-gray-800 font-semibold">Help & feedback</button>
         </header>
         <TaskBoard />
       </div>
