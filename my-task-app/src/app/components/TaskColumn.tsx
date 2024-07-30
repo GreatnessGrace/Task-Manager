@@ -1,6 +1,7 @@
 import React from 'react';
 import { RiMenuFold2Fill } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
+import { MdOutlineWatchLater } from "react-icons/md";
 
 interface Task {
   id: number;
@@ -39,7 +40,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, tasks }) => {
             <h5 className="text-sm text-gray-500">{task.description}</h5>
             <button className={`text-sm px-2 rounded-lg ${priorityColors[task.priority]}`}>{task.priority}</button>
             {/* <button className="text-sm bg-red-400  px-2 rounded-lg text-gray-500">{task.priority}</button> */}
-            <p className="text-sm text-gray-500 font-semibold">{task.date}</p>
+            <p className="text-sm text-gray-500 font-semibold flex items-center"><MdOutlineWatchLater className='mr-2 font-bold'/>{task.date}</p>
             <p className="text-sm text-gray-500">{task.time}</p>
           </div>
         ))}
