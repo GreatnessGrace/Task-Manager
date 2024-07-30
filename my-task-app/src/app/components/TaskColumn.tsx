@@ -1,6 +1,6 @@
 import React from 'react';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // Import icons
 import { RiMenuFold2Fill } from "react-icons/ri";
+import { FaPlus } from "react-icons/fa";
 
 interface Task {
   id: number;
@@ -41,7 +41,10 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, tasks }) => {
             <p className="text-sm text-gray-500">{task.time}</p>
           </div>
         ))}
-        <button className="w-full bg-black text-white py-2 rounded-lg shadow-md">Add new</button>
+          <button className="px-4 py-2 bg-black text-white rounded-lg shadow-md flex items-center">
+            Add new  <FaPlus className='ml-10'/>
+          </button>
+       
       </div>
     </div>
   );
