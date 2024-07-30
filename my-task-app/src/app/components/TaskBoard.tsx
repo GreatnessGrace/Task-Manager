@@ -13,7 +13,7 @@ const TaskBoard: React.FC = () => {
   
   return (
     <div>
-      <div className="flex px-4 py-2 justify-between items-center mb-6 bg-gray-200">
+      <div className="flex px-4 py-2 justify-between items-center mb-6 ">
         <div className="flex space-x-4">
               <div className="relative flex items-center">
       <input
@@ -22,16 +22,16 @@ const TaskBoard: React.FC = () => {
         placeholder="Search"
         onChange={(e) => setSearch(e.target.value)}
         required
-        className="pl-5 pr-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-gray-100 w-full" 
+        className="pl-5 pr-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-white w-full" 
       />
       <CiSearch className="absolute right-3 text-gray-500 text-xl" />
     </div>
     </div>
     <div className="flex space-x-4 items-center">
-          <button className="px-4 bg-gray-200 flex items-center">Calendar view <CiCalendar className='ml-2 text-3xl'/></button>
-          <button className="px-4 bg-gray-200 flex items-center">Automation <BsStars className='ml-2 text-3xl'/></button>
-          <button className="px-4 bg-gray-200 flex items-center">Filter <CiFilter className='ml-2 text-3xl'/></button>
-          <button className="px-4 bg-gray-200 flex items-center">Share <CiShare2 className='ml-2 text-3xl'/></button>
+          <button className="px-4 flex items-center">Calendar view <CiCalendar className='ml-2 text-3xl'/></button>
+          <button className="px-4 flex items-center">Automation <BsStars className='ml-2 text-3xl'/></button>
+          <button className="px-4 flex items-center">Filter <CiFilter className='ml-2 text-3xl'/></button>
+          <button className="px-4 flex items-center">Share <CiShare2 className='ml-2 text-3xl'/></button>
           <button className="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md flex items-center">Create new <CiCirclePlus className='ml-2 bg-white text-black rounded-lg'/></button>
         </div>
       </div>
