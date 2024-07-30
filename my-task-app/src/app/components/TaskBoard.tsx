@@ -36,10 +36,10 @@ const TaskBoard: React.FC = () => {
         </div>
       </div>
       <div className="flex space-x-4">
-        <TaskColumn title="To do" tasks={[{ id: 1, title: 'Implement User Authentication', priority: 'Urgent', date: '2024-08-15', time: '1 hr ago' }, /* more tasks */]} />
-        <TaskColumn title="In progress" tasks={[{ id: 2, title: 'Design Home Page UI', priority: 'Medium', date: '2024-08-15', time: '1 hr ago' },{ id: 3, title: 'Conduct User Feedback Survey', priority: 'Low', date: '2024-08-15', time: '3 hr ago' }, /* more tasks */]} />
-        <TaskColumn title="Under review" tasks={[{ id: 4, title: 'Integrate Cloud Storage', priority: 'Urgent', date: '2024-08-20', time: '2 days ago' }, /* more tasks */]} />
-        <TaskColumn title="Finished" tasks={[{ id: 5, title: 'Test Cross-browser Compatibility', priority: 'Medium', date: '2024-07-30', time: '4 days ago' }, /* more tasks */]} />
+        <TaskColumn title="To do" tasks={[{ id: 1, title: 'Implement User Authentication', description:"Some Description", priority: 'Urgent', date: '2024-08-15', time: '1 hr ago' }, /* more tasks */]} />
+        <TaskColumn title="In progress" tasks={[{ id: 2, title: 'Design Home Page UI',  description:"Some Description", priority: 'Medium', date: '2024-08-15', time: '1 hr ago' },{ id: 3, title: 'Conduct User Feedback Survey',description:"Some Description", priority: 'Low', date: '2024-08-15', time: '3 hr ago' }, /* more tasks */]} />
+        <TaskColumn title="Under review" tasks={[{ id: 4, title: 'Integrate Cloud Storage',description:"Some Description", priority: 'Urgent', date: '2024-08-20', time: '2 days ago' }, /* more tasks */]} />
+        <TaskColumn title="Finished" tasks={[{ id: 5, title: 'Test Cross-browser Compatibility',description:"Some Description", priority: 'Medium', date: '2024-07-30', time: '4 days ago' }, /* more tasks */]} />
       </div>
     </div>
   );
