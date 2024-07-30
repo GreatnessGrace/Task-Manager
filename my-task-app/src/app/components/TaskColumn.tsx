@@ -25,7 +25,7 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, tasks }) => {
       };
 
   return (
-    <div className="flex-1 bg-white p-4 rounded-lg shadow-md">
+    <div className="flex-1 bg-white p-4 ">
   
             <div className="flex justify-between items-center mb-4">
 
