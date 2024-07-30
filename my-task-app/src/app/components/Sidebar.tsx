@@ -1,5 +1,8 @@
 import React from 'react';
 import { CiCirclePlus } from "react-icons/ci";
+import { IoHomeOutline, IoClipboardSharp, IoAnalytics   } from "react-icons/io5";
+import { IoIosSettings } from "react-icons/io";
+import { AiOutlineTeam } from "react-icons/ai";
 
 const Sidebar: React.FC = () => {
   return (
@@ -17,11 +20,12 @@ const Sidebar: React.FC = () => {
         </div>
       </div>
       <nav className="space-y-4">
-        <a href="#" className="block text-purple-600">Home</a>
-        <a href="#" className="block text-gray-700">Boards</a>
-        <a href="#" className="block text-gray-700">Settings</a>
-        <a href="#" className="block text-gray-700">Teams</a>
-        <a href="#" className="block text-gray-700">Analytics</a>
+        <a href="#" className="block text-purple-600 flex items-center"> <IoHomeOutline className="mr-2"/>
+         Home</a>
+        <a href="#" className="block text-gray-700 flex items-center "><IoClipboardSharp className="mr-2"/> Boards</a>
+        <a href="#" className="block text-gray-700 flex items-center "><IoIosSettings  className="mr-2"/> Settings</a>
+        <a href="#" className="block text-gray-700 flex items-center "><AiOutlineTeam className="mr-2"/> Teams</a>
+        <a href="#" className="block text-gray-700 flex items-center "><IoAnalytics className="mr-2"/> Analytics</a>
       </nav>
       <button className="w-full mt-6 py-2 bg-purple-600 text-white rounded-lg flex items-center justify-center">Create new task <CiCirclePlus className='ml-2 bg-white text-black rounded-lg'/></button>
     </div>
