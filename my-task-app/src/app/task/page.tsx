@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from '../components/SideBar';
+import Sidebar from '../components/Sidebar';
 import TaskBoard from '../components/TaskBoard';
 
 const TaskPage: React.FC = () => {
