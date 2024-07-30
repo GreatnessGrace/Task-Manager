@@ -5,6 +5,7 @@ import { FaPlus } from "react-icons/fa";
 interface Task {
   id: number;
   title: string;
+  description: string;
   priority: string;
   date: string;
   time: string;
@@ -35,9 +36,10 @@ const TaskColumn: React.FC<TaskColumnProps> = ({ title, tasks }) => {
         {tasks.map((task) => (
           <div key={task.id} className="bg-gray-100 p-4 rounded-lg shadow-md " >
             <h3 className="text-lg font-semibold">{task.title}</h3>
+            <h5 className="text-sm text-gray-500">{task.description}</h5>
             <button className={`text-sm px-2 rounded-lg ${priorityColors[task.priority]}`}>{task.priority}</button>
             {/* <button className="text-sm bg-red-400  px-2 rounded-lg text-gray-500">{task.priority}</button> */}
-            <p className="text-sm text-gray-500">{task.date}</p>
+            <p className="text-sm text-gray-500 font-semibold">{task.date}</p>
             <p className="text-sm text-gray-500">{task.time}</p>
           </div>
         ))}
