@@ -1,4 +1,5 @@
 import React from 'react';
+import { CiCirclePlus } from "react-icons/ci";
 
 const Sidebar: React.FC = () => {
   return (
@@ -22,7 +23,7 @@ const Sidebar: React.FC = () => {
         <a href="#" className="block text-gray-700">Teams</a>
         <a href="#" className="block text-gray-700">Analytics</a>
       </nav>
-      <button className="w-full mt-6 py-2 bg-purple-600 text-white rounded-lg">Create new task</button>
+      <button className="w-full mt-6 py-2 bg-purple-600 text-white rounded-lg flex items-center justify-center">Create new task <CiCirclePlus className='ml-2 bg-white text-black rounded-lg'/></button>
     </div>
   );
 };
