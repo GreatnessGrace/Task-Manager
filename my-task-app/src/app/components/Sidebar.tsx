@@ -1,13 +1,14 @@
 import React from 'react';
-import { CiCirclePlus } from "react-icons/ci";
+import { CiCirclePlus, CiLight  } from "react-icons/ci";
 import { IoHomeOutline, IoClipboardSharp, IoAnalytics   } from "react-icons/io5";
-import { IoIosSettings } from "react-icons/io";
+import { IoIosSettings, IoIosNotificationsOutline  } from "react-icons/io";
 import { AiOutlineTeam } from "react-icons/ai";
+import { TbPlayerTrackNext } from "react-icons/tb";
 
 const Sidebar: React.FC = () => {
   return (
     <div className="w-64 bg-white shadow-md p-4">
-      <div className="flex items-center space-x-4 mb-6">
+      <div className="flex items-center space-x-4 mb-2">
         <img
           className="w-10 h-10 rounded-full"
           src="/download.jpg"
@@ -16,9 +17,13 @@ const Sidebar: React.FC = () => {
         />
         <div>
           <p className="text-lg font-semibold">Joe Gardner</p>
-          <p className="text-sm text-gray-500">Good morning!</p>
+          {/* <p className="text-sm text-gray-500">Good morning!</p> */}
         </div>
       </div>
+      <div className='flex items-center mb-4'><IoIosNotificationsOutline  className="mr-3"/> <CiLight  className="mr-3"/><TbPlayerTrackNext className="mr-3"/>
+      
+      <button className="w-1/2 rounded-sm bg-gray-200  ml-5">Logout</button>      </div>
+{/* <br /> */}
       <nav className="space-y-4">
         <a href="#" className="block text-purple-600 flex items-center"> <IoHomeOutline className="mr-2"/>
          Home</a>
