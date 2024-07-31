@@ -1,45 +1,94 @@
-// // src/components/TaskBoard.tsx
-'use client';
-
-import React, { useState } from 'react';
+"use client"
+import React, {useEffect, useState } from 'react';
 import TaskColumn from './TaskColumn';
-import { CiCirclePlus, CiCalendar, CiFilter, CiShare2, CiSearch    } from "react-icons/ci";
+import { CiCirclePlus, CiCalendar, CiFilter, CiShare2, CiSearch } from "react-icons/ci";
 import { BsStars } from "react-icons/bs";
+import TaskForm from './TaskForm';
+import CreateTaskForm from '../components/TaskForm';
 
-const TaskBoard: React.FC = () => {
+const TaskBoard: React.FC<{ tasks: any[] }> = ({ tasks }) => {
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/tasks');
+        const data = await response.json();
+        setTasks(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
+  const [task, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState('');
+  const [isCreatingTask, setIsCreatingTask] = useState(false);
 
-  
+  const filteredTasks = tasks.filter(task =>
+    task.title.toLowerCase().includes(search.toLowerCase())
+  );
+  const handleTaskCreated = async () => {
+    const response = await fetch('http://localhost:5000/api/tasks');
+    const data = await response.json();
+    setTasks(data);
+  };
+ 
+  const columns = ['To do', 'In progress', 'Under review', 'Finished'];
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <div className="flex px-4 py-2 justify-between items-center mb-6 ">
         <div className="flex space-x-4">
-              <div className="relative flex items-center">
-      <input
-        type="search"
-        value={search}
-        placeholder="Search"
-        onChange={(e) => setSearch(e.target.value)}
-        required
-        className="pl-5 pr-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-white w-full" 
-      />
-      <CiSearch className="absolute right-3 text-gray-500 text-xl" />
-    </div>
-    </div>
-    <div className="flex space-x-4 items-center">
+          <div className="relative flex items-center">
+            <input
+              type="search"
+              value={search}
+              placeholder="Search"
+              onChange={(e) => setSearch(e.target.value)}
+              required
+              className="pl-5 pr-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-white w-full"
+            />
+            <CiSearch className="absolute right-3 text-gray-500 text-xl" />
+          </div>
+        </div>
+        <div className="flex space-x-4 items-center">
           <button className="px-4 flex items-center">Calendar view <CiCalendar className='ml-2 text-3xl'/></button>
           <button className="px-4 flex items-center">Automation <BsStars className='ml-2 text-3xl'/></button>
           <button className="px-4 flex items-center">Filter <CiFilter className='ml-2 text-3xl'/></button>
           <button className="px-4 flex items-center">Share <CiShare2 className='ml-2 text-3xl'/></button>
-          <button className="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md flex items-center">Create new <CiCirclePlus className='ml-2 bg-white text-black rounded-lg'/></button>
+          {/* <button className="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md flex items-center"> */}
+            {/* Create new <CiCirclePlus className='ml-2 bg-white text-black rounded-lg'/> */}
+          {/* </button> */}
+          <div className="flex justify-end mb-4">
+          <button
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md flex items-center"
+            onClick={() => setIsCreatingTask(true)}
+          >
+            Create new <CiCirclePlus className='ml-2 bg-white text-black rounded-lg'/>
+          </button>
+          {isCreatingTask && (
+        <CreateTaskForm
+                onClose={() => setIsCreatingTask(false)}
+                onTaskCreated={handleTaskCreated} initialStatus={''}        />
+      )}
+        </div>
         </div>
       </div>
       <div className="flex space-x-0">
-        <TaskColumn title="To do" tasks={[{ id: 1, title: 'Implement User Authentication', description:"Develop and Integrate user authentication using email and password.", priority: 'Urgent', date: '2024-08-15', time: '1 hr ago' }, /* more tasks */]} />
-        <TaskColumn title="In progress" tasks={[{ id: 2, title: 'Design Home Page UI',  description:"Develop and Integrate user authentication using email and password.", priority: 'Medium', date: '2024-08-15', time: '1 hr ago' },{ id: 3, title: 'Develop and Integrate user authentication using email and password.',description:"Some Description", priority: 'Low', date: '2024-08-15', time: '3 hr ago' }, /* more tasks */]} />
-        <TaskColumn title="Under review" tasks={[{ id: 4, title: 'Integrate Cloud Storage',description:"Develop and Integrate user authentication using email and password.", priority: 'Urgent', date: '2024-08-20', time: '2 days ago' }, /* more tasks */]} />
-        <TaskColumn title="Finished" tasks={[{ id: 5, title: 'Test Cross-browser Compatibility',description:"Develop and Integrate user authentication using email and password.", priority: 'Medium', date: '2024-07-30', time: '4 days ago' }, /* more tasks */]} />
+        {columns.map(column => (
+          <TaskColumn
+            key={column}
+            title={column}
+            tasks={filteredTasks.filter(task => task.status === column)} onTaskCreated={function (): void {
+              throw new Error('Function not implemented.');
+            } }          />
+        ))}
       </div>
     </div>
   );
