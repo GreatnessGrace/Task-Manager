@@ -1,49 +1,53 @@
-// import NextAuth from 'next-auth';
-// import CredentialsProvider from 'next-auth/providers/credentials';
-// import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
-// import clientPromise from '../../../app/mongodb';
-
-// export default NextAuth({
-//   providers: [
-//     CredentialsProvider({
-//       async authorize(credentials) {
-//         // Implement your own logic to authenticate users
-//         // Example: Check credentials in your database
-//         const user = { id: '1', name: 'User', email: credentials?.email }; // Replace with actual user retrieval
-//         if (user) {
-//           return user;
-//         } else {
-//           throw new Error('Invalid credentials');
-//         }
-//       }
-//     })
-//   ],
-//   adapter: MongoDBAdapter(clientPromise),
-//   pages: {
-//     signIn: '/auth/login', // Custom sign-in page
-//   },
-//   secret: process.env.NEXTAUTH_SECRET,
-// });
-
-
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { verifyPassword } from '../../../utils/auth'; // Utility to verify password
-import { getUserByEmail } from '../../../utils/db'; // Utility to get user from DB
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 export default NextAuth({
   providers: [
     CredentialsProvider({
+      credentials: {
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
+      },
       async authorize(credentials) {
-        const user = await getUserByEmail(credentials?.email || '');
-        if (user && (await verifyPassword(credentials?.password || '', user.password))) {
-          return { email: user.email };
+        const res = await fetch('http://localhost:5000/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: credentials?.email,
+            password: credentials?.password,
+          }),
+        });
+
+        const user = await res.json();
+
+        if (res.ok && user.token) {
+          return { id: user.id, email: user.email, token: user.token };
+        } else {
+          throw new Error('Invalid credentials');
         }
-        throw new Error('Invalid credentials');
-      }
-    })
+      },
+    }),
   ],
   session: {
-    strategy: 'jwt'
-  }
+    strategy: 'jwt',
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.token = user.token; // Add custom token here
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.token = token.token; // Add custom token here
+      }
+      return session;
+    },
+  },
+  secret: JWT_SECRET,
 });
