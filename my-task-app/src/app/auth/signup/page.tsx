@@ -11,19 +11,45 @@ const SignupPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false); 
   const router = useRouter();
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log({ name, email, password });
+  //   router.push('/auth/login');
+  // };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ name, email, password });
-    router.push('/auth/login');
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+  
+      if (response.ok) {
+        // Successfully signed up
+        console.log('User registered successfully');
+        router.push('/auth/login');
+      } else {
+        // Handle errors
+        const result = await response.json();
+        console.error('Error:', result.message);
+        // You might want to show a user-friendly message here
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      // Handle network errors
+    }
   };
-
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-purple-100 to-purple-200">
       <div className="bg-white p-10 rounded-lg shadow-lg w-96 text-center">
         <h2 className="text-2xl font-semibold mb-6">Welcome to <span className="text-blue-800">Workflo!</span></h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            {/* <label className="block text-left mb-2 text-sm font-medium text-gray-600">Full name:</label> */}
             <input
               type="text"
               placeholder='Full name'
@@ -34,7 +60,6 @@ const SignupPage: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            {/* <label className="block text-left mb-2 text-sm font-medium text-gray-600">Your email:</label> */}
             <input
               type="email"
               placeholder='Your email'
@@ -45,7 +70,6 @@ const SignupPage: React.FC = () => {
             />
           </div>
           <div className="mb-6 relative"> 
-            {/* <label className="block text-left mb-2 text-sm font-medium text-gray-600">Password:</label> */}
             <input
               type={showPassword ? 'text' : 'password'} 
               placeholder='Password'
