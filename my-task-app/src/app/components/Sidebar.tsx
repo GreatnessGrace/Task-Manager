@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { CiCirclePlus, CiLight } from "react-icons/ci";
 import { IoHomeOutline, IoClipboardSharp, IoAnalytics } from "react-icons/io5";
@@ -5,8 +7,16 @@ import { IoIosSettings, IoIosNotificationsOutline } from "react-icons/io";
 import { AiOutlineTeam } from "react-icons/ai";
 import { TbPlayerTrackNext } from "react-icons/tb";
 import { TfiDownload } from "react-icons/tfi";
+import { useRouter } from 'next/navigation';
 
 const Sidebar: React.FC = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    router.push('/');
+  };
+
   return (
     <div className="w-64 bg-white shadow-md flex flex-col h-screen p-4">
       <div className="flex items-center space-x-4 mb-2">
@@ -23,7 +33,7 @@ const Sidebar: React.FC = () => {
         <IoIosNotificationsOutline className="mr-3" /> 
         <CiLight className="mr-3" />
         <TbPlayerTrackNext className="mr-3" />
-        <button className="w-1/2 rounded-sm bg-gray-200 ml-5">Logout</button>
+        <button onClick={handleLogout} className="w-1/2 rounded-sm bg-gray-200 ml-5">Logout</button>
       </div>
       <nav className="space-y-4 flex-1">
         <a href="#" className="block text-purple-600 flex items-center">
