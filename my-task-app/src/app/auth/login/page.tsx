@@ -1,28 +1,38 @@
 'use client';
 
 import React, { useState } from 'react';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // Import icons
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; 
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await signIn('credentials', {
-      redirect: false,
-      email,
-      password,
-    });
 
-    if (result?.error) {
-      console.error(result.error);
-    } else if (result?.ok) {
-      router.push('/');
+    try {
+
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        router.push('/');
+      } else {
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
     }
   };
 
@@ -32,7 +42,6 @@ const LoginPage: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-6">Welcome to <span className="text-purple-600">Workflo!</span></h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            {/* <label className="block text-left mb-2 text-sm font-medium text-gray-600">Email:</label> */}
             <input
               type="email"
               value={email}
@@ -42,10 +51,9 @@ const LoginPage: React.FC = () => {
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-gray-100"
             />
           </div>
-          <div className="mb-6 relative"> {/* Add relative positioning */}
-            {/* <label className="block text-left mb-2 text-sm font-medium text-gray-600">Password:</label> */}
+          <div className="mb-6 relative"> 
             <input
-              type={showPassword ? 'text' : 'password'} // Toggle input type
+              type={showPassword ? 'text' : 'password'} 
               value={password}
               placeholder='Password'
               onChange={(e) => setPassword(e.target.value)}
@@ -54,7 +62,7 @@ const LoginPage: React.FC = () => {
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              onClick={() => setShowPassword(!showPassword)} 
               className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400"
             >
               {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
