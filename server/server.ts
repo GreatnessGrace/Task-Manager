@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import { USER } from './models/User';
 import 'dotenv/config';
+import jwt from 'jsonwebtoken';
 
 const cors = require('cors');
 const app = express();
@@ -12,19 +13,38 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Database connection
-const connectToDatabase = async () => {
-  const uri = process.env.MONGODB_URI;
+// const connectToDatabase = async () => {
+//   try {
+//     const uri = process.env.MONGODB_URI; 
+//     if (!uri) {
+//       throw new Error('MONGODB_URI is not defined in .env file');
+//     }
+//       console.log('Connected to MongoDB');
+//   } catch (error) {
+//     console.error('Failed to connect to MongoDB', error);
+//     process.exit(1); // Exit process if connection fails
+//   }
+// };
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://Grace:Grace@community.h0vtwjy.mongodb.net/Community?retryWrites=true&w=majority';
+
+export const connectToDatabase = async () => {
+  if (mongoose.connection.readyState >= 1) return;
+
   try {
-    const uri = process.env.MONGODB_URI; 
-    if (!uri) {
-      throw new Error('MONGODB_URI is not defined in .env file');
-    }
-      console.log('Connected to MongoDB');
+    await mongoose.connect(MONGO_URI, {
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
+    });
+    console.log('Connected to MongoDB');
   } catch (error) {
-    console.error('Failed to connect to MongoDB', error);
-    process.exit(1); // Exit process if connection fails
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
   }
 };
+// if (!process.env.JWT_SECRET) {
+//   throw new Error('MONGODB_URI is not defined in .env file');
+// }
+const JWT_SECRET = '12345'
 
 // Signup route
 app.post('/api/signup', async (req, res) => {
@@ -55,8 +75,40 @@ app.post('/api/signup', async (req, res) => {
   }
 });
 
+// Login route
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+console.log(req.body)
+  try {
+    // Find the user
+    const user = await USER.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    // Verify password
+    const isMatch = await bcrypt.compare(password, user.password as string);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Generate a token
+    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // Start server
-app.listen(5000, async () => {
-  await connectToDatabase();
-  console.log('Server is running on port 5000');
+// app.listen(5000, async () => {
+//   await connectToDatabase();
+//   console.log('Server is running on port 5000');
+// });
+connectToDatabase().then(() => {
+  app.listen(5000, () => {
+    console.log('Server is running on port 5000');
+  });
 });
