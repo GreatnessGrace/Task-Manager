@@ -97,7 +97,7 @@ console.log(req.body)
     }
 
     // Generate a token
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, email: user.email, username: user.name }, JWT_SECRET, { expiresIn: '1h' });
 
     res.json({ token });
   } catch (error) {
