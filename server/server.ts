@@ -26,11 +26,13 @@ app.use(bodyParser.json());
 //     process.exit(1); // Exit process if connection fails
 //   }
 // };
-const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://Grace:Grace@community.h0vtwjy.mongodb.net/Community?retryWrites=true&w=majority';
+const MONGO_URI = process.env.MONGO_URI ;
 
 export const connectToDatabase = async () => {
   if (mongoose.connection.readyState >= 1) return;
-
+  if (!MONGO_URI) {
+          throw new Error('MONGODB_URI is not defined in .env file');
+        }
   try {
     await mongoose.connect(MONGO_URI, {
       // useNewUrlParser: true,
