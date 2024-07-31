@@ -13,9 +13,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </head>
       <body>
         <SessionProvider>
-          <header>
-            <h1>Task Management App</h1>
-          </header>
+        
           <main>{children}</main>
           <footer>
             <p>&copy; 2024 Task Management App</p>
