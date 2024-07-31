@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        router.push('/');
+        router.push('/task');
       } else {
         console.error(data.message);
       }
