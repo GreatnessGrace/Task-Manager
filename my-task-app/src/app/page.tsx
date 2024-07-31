@@ -18,11 +18,11 @@ const HomePage: React.FC = () => {
       <div className="bg-white shadow-md rounded-lg p-6 text-center">
         <h2 className="text-2xl font-semibold mb-4">Please sign in to access the task board</h2>
         <button 
-          onClick={() => router.push('/auth/login')}
-          className="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md flex items-center justify-center text-center"
-        >
-          Sign In
-        </button>
+  onClick={() => router.push('/auth/login')}
+  className="px-2 py-2 bg-purple-600 text-white rounded-lg shadow-md text-center w-1/2 max-w-xs"
+>
+  Sign In
+</button>
       </div>
     </div>
   );
