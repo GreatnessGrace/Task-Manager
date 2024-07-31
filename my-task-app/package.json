@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build:no-lint": "next build && eslint --ignore-pattern '**/*' .",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
