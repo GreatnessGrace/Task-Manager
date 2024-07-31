@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { CiCirclePlus, CiLight } from "react-icons/ci";
 import { IoHomeOutline, IoClipboardSharp, IoAnalytics } from "react-icons/io5";
 import { IoIosSettings, IoIosNotificationsOutline } from "react-icons/io";
@@ -8,10 +8,17 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { TbPlayerTrackNext } from "react-icons/tb";
 import { TfiDownload } from "react-icons/tfi";
 import { useRouter } from 'next/navigation';
+import CreateTaskForm from '../components/TaskForm';
 
 const Sidebar: React.FC = () => {
+  const [task, setTasks] = useState([]);
   const router = useRouter();
-
+  const [isCreatingTask, setIsCreatingTask] = useState(false);
+  const handleTaskCreated = async () => {
+    const response = await fetch('http://localhost:5000/api/tasks');
+    const data = await response.json();
+    setTasks(data);
+  };
   const handleLogout = () => {
     localStorage.removeItem('token'); 
     router.push('/');
@@ -56,9 +63,19 @@ const Sidebar: React.FC = () => {
           <IoAnalytics className="mr-2" /> 
           Analytics
         </a>
-        <button className="w-full mt-6 py-2 bg-purple-600 text-white rounded-lg flex items-center justify-center">
+        {/* <button className="w-full mt-6 py-2 bg-purple-600 text-white rounded-lg flex items-center justify-center">
         Create new task <CiCirclePlus className='ml-2 bg-white text-black rounded-lg' />
-      </button>
+      </button> */}
+      <button
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md flex items-center"
+            onClick={() => setIsCreatingTask(true)}
+          >
+            Create new task<CiCirclePlus className='ml-2 bg-white text-black rounded-lg'/>
+          </button>
+          {isCreatingTask && (
+        <CreateTaskForm
+                onClose={() => setIsCreatingTask(false)}
+                onTaskCreated={handleTaskCreated} initialStatus={''}        />)}
       </nav>
      
       <div className='flex items-center mt-auto bg-gray-200 rounded-sm p-2'>
