@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import { USER } from './models/User';
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
+const taskRoutes = require('./routes/tasks');
 
 const cors = require('cors');
 const app = express();
@@ -45,6 +46,7 @@ export const connectToDatabase = async () => {
 //   throw new Error('MONGODB_URI is not defined in .env file');
 // }
 const JWT_SECRET = '12345'
+app.use('/api', taskRoutes);
 
 // Signup route
 app.post('/api/signup', async (req, res) => {
