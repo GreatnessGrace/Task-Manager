@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "my-task-app/package.json",
+        "use": "@vercel/next"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "my-task-app/$1"
+      }
+    ],
+    "env": {
+      "NEXT_PUBLIC_DISABLE_LINT": "true"
+    }
+  }
+  
