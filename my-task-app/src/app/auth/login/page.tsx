@@ -3,16 +3,18 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import Notification from "../../components/Notifications"; 
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     try {
       const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
@@ -27,12 +29,28 @@ const LoginPage: React.FC = () => {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         router.push("/task");
-      } else {
-        console.error(data.message);
-      }
+      setNotification({
+        message: "Logged in Successful",
+        type: "success",
+      });
+    } else {
+      console.error(data.message);
+      setNotification({
+        message: data.message || "An error occurred during login.",
+        type: "error",
+      });
+    }
     } catch (error) {
       console.error("Login failed:", error);
+      setNotification({
+        message: "Network error occurred during Login.",
+        type: "error",
+      });
     }
+  };
+
+  const handleNotificationClose = () => {
+    setNotification(null);
   };
 
   return (
@@ -71,7 +89,7 @@ const LoginPage: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:border-gray-400 transition duration-200"
+            className="w-full bg-purple-400 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition duration-200"
           >
             Login
           </button>
@@ -83,6 +101,13 @@ const LoginPage: React.FC = () => {
           </a>
         </p>
       </div>
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={handleNotificationClose}
+        />
+      )}
     </div>
   );
 };
