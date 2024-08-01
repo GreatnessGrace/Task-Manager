@@ -65,7 +65,7 @@ const SignupPage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-600"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-gary-400 bg-gray-100" 
             />
           </div>
           <div className="mb-4">
@@ -75,7 +75,7 @@ const SignupPage: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-600"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-gary-400 bg-gray-100"
             />
           </div>
           <div className="mb-6 relative"> 
@@ -85,7 +85,7 @@ const SignupPage: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-purple-600"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-gray-400 bg-gray-100"
             />
             <button
               type="button"
@@ -97,7 +97,7 @@ const SignupPage: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full bg-purple-300 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition duration-200"
+            className="w-full bg-purple-400 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition duration-200"
           >
             Sign up
           </button>
