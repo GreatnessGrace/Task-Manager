@@ -3,19 +3,18 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; 
+import Notification from "../../components/Notifications"; 
 
 const SignupPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
   const router = useRouter();
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   console.log({ name, email, password });
-  //   router.push('/auth/login');
-  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
@@ -27,20 +26,30 @@ const SignupPage: React.FC = () => {
         },
         body: JSON.stringify({ name, email, password }),
       });
-  
+
+      const data = await response.json();
+
       if (response.ok) {
-        // Successfully signed up
         console.log('User registered successfully');
         router.push('/auth/login');
+        setNotification({
+          message: "Account Created Successfully",
+          type: "success",
+        });
       } else {
-        // Handle errors
         const result = await response.json();
+        setNotification({
+          message: data.message || "An error occurred during Signup.",
+          type: "error",
+        });
         console.error('Error:', result.message);
-        // You might want to show a user-friendly message here
       }
     } catch (error) {
+      setNotification({
+        message: "Network error occurred during Signup.",
+        type: "error",
+      });
       console.error('Network error:', error);
-      // Handle network errors
     }
   };
   
