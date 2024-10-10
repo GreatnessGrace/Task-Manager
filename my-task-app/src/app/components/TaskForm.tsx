@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Notification from "../components/Notifications"; 
 
 interface CreateTaskFormProps {
   onClose: () => void;
@@ -13,6 +14,7 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({ onClose, onTaskCreated,
   const [status, setStatus] = useState(initialStatus);
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   useEffect(() => {
     setStatus(initialStatus);
@@ -34,13 +36,29 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({ onClose, onTaskCreated,
 
       if (response.ok) {
         onTaskCreated();
+        setNotification({
+          message: "Task Created Successfully",
+          type: "success",
+        });
         onClose();
       } else {
+        setNotification({
+          message:  "An error occurred during task creation.",
+          type: "error",
+        });
         console.error('Failed to create task');
       }
     } catch (error) {
+      setNotification({
+        message:  "A network error occurred during task creation.",
+        type: "error",
+      });
       console.error('Error:', error);
     }
+  };
+
+  const handleNotificationClose = () => {
+    setNotification(null);
   };
 
   return (
@@ -132,6 +150,13 @@ const CreateTaskForm: React.FC<CreateTaskFormProps> = ({ onClose, onTaskCreated,
           </div>
         </form>
       </div>
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={handleNotificationClose}
+        />
+      )}
     </div>
   );
 };

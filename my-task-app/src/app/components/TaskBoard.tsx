@@ -86,7 +86,7 @@ const TaskBoard: React.FC<{ tasks: any[] }> = ({ tasks }) => {
             key={column}
             title={column}
             tasks={filteredTasks.filter(task => task.status === column)} onTaskCreated={function (): void {
-              throw new Error('Function not implemented.');
+              console.log('Function not implemented.');
             } }          />
         ))}
       </div>

@@ -27,7 +27,7 @@ router.post('/tasks', async (req, res) => {
 
   try {
     const newTask = await task.save();
-    res.status(201).json(newTask);
+    res.json(newTask);
   } catch (err:any) {
     res.status(400).json({ message: err.message });
   }
